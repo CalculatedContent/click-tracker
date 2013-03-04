@@ -1,0 +1,58 @@
+function e64t()
+{
+
+}
+
+e64t.data = {};
+
+e64t.trackPageLoad = function()
+{
+	e64t.setData();
+
+	e64t.log();
+}
+
+e64t.setData = function()
+{
+	var d = e64t.data;
+
+	d.url = document.URL;
+	d.title = document.title;
+	d.referer = document.referrer;
+}
+
+e64t.getUrlData = function()
+{
+	var s ='<%=@base_url%>/app/record?';
+
+	for(k in e64t.data)
+	{
+		s += k + '=' + e64t.ue(e64t.data[k]) + '&';
+	}
+
+	var d = new Date();
+
+	s += 'ts='+d.getTime();
+
+	return s;
+}
+
+e64t.log = function()
+{
+	var image = new Image(1,1);
+	image.src = e64t.getUrlData();
+
+	e64t.data = {};
+}
+
+e64t.ue = function(s)
+{
+    // version: 1109.2015
+    // discuss at: http://phpjs.org/functions/urlencode    // +   original by: Philip Peterson
+    s = (s + '').toString();
+     // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+    // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+    return encodeURIComponent(s).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+}
+
+window.onload = e64t.trackPageLoad;

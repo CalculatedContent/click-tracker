@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>RECOMMENDER</title>
+
+	<link rel="stylesheet" type="text/css" href="http://184.169.148.23/app/widget.css" />
+
+</head>
+	
+<body>
+	
+	<div id="e64_w_container">
+	<div id="e64_w_border">
+
+		<div id="e64_w_content">
+			<div id="e64_w_head">Recommendations</div>
+			<div id="e64_w_links">
+				<div class="e64_w_link clearfix">		
+					<div class="e64_w_link_text">
+				
+					    <% for @rec in @recos %>
+						<a class="e64_w_link_title" onClick="top.location.href='http://<%=@rec[:url]%>'">
+								<%= @rec[:title] %>					
+						</a>
+						<div class="e64_w_link_desc">
+							<%= @rec[:score].to_i %> people recommend this.
+						</div>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<div id="e64_w_foot">&copy;2011 Crowdbrain</div>
+
+		</div>
+	</div>
+</div>
+
+</body>
+
+</html>

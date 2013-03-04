@@ -1,0 +1,134 @@
+function e64t()
+{
+
+}
+
+e64t.data = {};
+
+e64t.registerClickEvents = function()
+{
+	if (window.addEventListener) {
+		window.addEventListener('click', function (e) {e64t.clickEventHandler(e);}, false);
+	} else if(window.attachEvent) {
+		window.attachEvent('click', function (e) {e64t.clickEventHandler(e);});
+	}
+
+	e64t.data.action = 'page_load';
+	
+	e64t.setData();
+
+	e64t.log();
+}
+
+e64t.clickEventHandler = function(e)
+{
+	// IE hack
+	e = e || window.event;
+
+	var t = e64t.getTarget(e);
+
+	e64t.setData(t);
+
+	e64t.log();
+}
+
+e64t.getTarget = function(e)
+{
+	// Determine the actual html element that generated the event
+	var t = e.target || e.srcElement;
+	
+	if( typeof t == 'undefined' || t==null )
+	    return null; //not all ie events provide srcElement
+	
+	return t;
+}
+
+e64t.setData = function(t)
+{
+	var d = e64t.data;
+
+	d.url = document.URL;
+	d.title = document.title;
+	d.referrer = document.referrer;
+
+	if(!t)
+		return;
+
+	d.dom_path = e64t.getDomPath(t);
+
+	var n = t.tagName.toLowerCase();
+			
+	d.object = n;
+
+	switch(n)
+	{
+		case 'a':
+			d.target_url = t.href;
+			if (t.textContent != undefined)
+				d.text = t.textContent;
+		    else
+				d.text = t.innerText;
+			break;
+		case 'img':
+			d.target_url = t.parentNode.href;
+			d.alt = t.alt;
+			break;
+		case 'input':
+			d.text = t.value;
+			break;
+	}
+}
+
+e64t.getDomPath = function(e)
+{
+	var a = [], el, n;
+
+    for (el = e; el; el = el.parentNode) {
+        n = el.tagName.toLowerCase();
+        if (n === "html")
+            break;
+		if (el.id)
+			n += '#' + el.id;
+        if (el.className)
+            n += '.' + el.className.replace(/ /g, '.');
+        a.push(n);
+    }
+    //a.reverse();
+	return a.join('/');
+}
+
+e64t.getUrlData = function()
+{
+	var s ='<%=@base_url%>/app/record';
+
+	for(k in e64t.data)
+	{
+		s += k + '=' + e64t.ue(e64t.data[k]) + '&';
+	}
+
+	var d = new Date();
+
+	s += 'ts='+d.getTime();
+
+	return s;
+}
+
+e64t.log = function()
+{
+	var image = new Image(1,1);
+	image.src = e64t.getUrlData();
+
+	e64t.data = {};
+}
+
+e64t.ue = function(s)
+{
+    // version: 1109.2015
+    // discuss at: http://phpjs.org/functions/urlencode    // +   original by: Philip Peterson
+    s = (s + '').toString();
+     // Tilde should be allowed unescaped in future versions of PHP (as reflected below), but if you want to reflect current
+    // PHP behavior, you would need to add ".replace(/~/g, '%7E');" to the following.
+    return encodeURIComponent(s).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
+}
+
+e64t.registerClickEvents();
