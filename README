@@ -1,0 +1,4 @@
+ClickTracker is meant to deployed via Crapistrano (deprec rack task) 
+on an server running Sinatra and Redis
+
+
