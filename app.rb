@@ -9,7 +9,7 @@ require 'htmlentities'
 configure do
   REDIS = Redis.new
 #  REDIS['domain'] = 
-  DOMAIN = "ec2-184-169-148-23.us-west-1.compute.amazonaws.com"
+ # DOMAIN = "ec2-184-169-148-23.us-west-1.compute.amazonaws.com"
 end
 
 
