@@ -1,5 +1,4 @@
-ClickTracker is meant to deployed via Crapistrano (deprec rack task) 
-on an server running Sinatra and Redis
+ClickTracker is a meant to be deoloyed via the chef capistrano-like sinatra_app recipe
 
 ClickTracker is a simple Sinatra app that collects clicks from a user website,
 stores some basic information in Redis, and provides very crude 'related link"
